@@ -13,9 +13,11 @@ spec:
       labels:
         app: northeast
     spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
       containers:
       - name: northeast
-        image: registry:5000/botsffl:northeast
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
         imagePullPolicy: Always
         env:
         - name: NORTHEAST
