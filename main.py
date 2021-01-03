@@ -396,7 +396,7 @@ def set_point_leaders():
     # num_tweets = math.ceil(len(combined_status) / 280)
     # send_tweet(combined_status, 1, num_tweets)
     # print(combined_status)
-    
+
 
 ########## Redis Functions ###########
 
@@ -506,7 +506,7 @@ def set_active_players():
     for player in players_list:
         client.sadd('active_players', player)
     print(client.scard('active_players'))
-    
+
 
 ########## Helper Functions ###########
 
@@ -589,14 +589,17 @@ def tweet_scores(client, num_matchups):
                 second_points = float(points)
                 if first_points > second_points:
                     tweet = first + " def. " + second + ": " + \
-                        str(int(first_points)) + " - " + str(int(second_points)) + "\n\n"
+                        str(int(first_points)) + " - " + \
+                        str(int(second_points)) + "\n\n"
 
                 elif first_points < second_points:
                     tweet = second + " def. " + first + ": " + \
-                        str(int(second_points)) + " - " + str(int(first_points)) + "\n\n"
+                        str(int(second_points)) + " - " + \
+                        str(int(first_points)) + "\n\n"
 
                 else:
-                    tweet = first + " & " + second + " tied: " + first_points + " - " + second_points + "\n\n"
+                    tweet = first + " & " + second + " tied: " + \
+                        first_points + " - " + second_points + "\n\n"
 
         full_tweet = full_tweet + tweet
     week = get_week()
@@ -629,7 +632,7 @@ def send_tweet(message, num, total):
                 message = f"({num}/{total})\n" + message
             api.update_status(message)
     except tweepy.TweepError as e:
-            print(e.reason)
+        print(e.reason)
 
 
 ########## Scheduler ###########
@@ -639,9 +642,9 @@ print(time.ctime())
 
 schedule.every().day.at("07:30").do(set_point_leaders)
 schedule.every().day.at("07:00").do(set_standings)
-schedule.every().monday.at("02:00").do(update_week)
+# schedule.every().monday.at("02:00").do(update_week)
 schedule.every().tuesday.at("06:00").do(set_roster_data)
-schedule.every().tuesday.at("08:00").do(weekly_scores)
+# schedule.every().tuesday.at("08:00").do(weekly_scores)
 schedule.every().tuesday.at("16:00").do(set_standings)
 schedule.every().thursday.at("17:30").do(set_active_players)
 
